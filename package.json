@@ -1,0 +1,12 @@
+{
+  "scripts":{
+    "dev":"tsx --watch src/server.ts"
+  },
+  "dependencies": {
+    "@types/node": "^22.8.3",
+    "fastify": "^5.0.0",
+    "puppeteer": "^23.6.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
