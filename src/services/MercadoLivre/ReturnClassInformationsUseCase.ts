@@ -14,9 +14,9 @@ interface MercadoLivreScrapClassInfoReturn{
 }
 
 export class MercadoLivreScrapClassInfo{
-    constructor(){}
+    constructor(private Headless:boolean){}
     async execute(QueryParam:string):Promise<MercadoLivreScrapClassInfoReturn>{
-        const browser = await puppeteer.launch({headless:false});
+        const browser = await puppeteer.launch({headless:this.Headless});
         const page = await browser.newPage()
 
         await page.goto(pup_config.MercadoLivre);
@@ -27,8 +27,7 @@ export class MercadoLivreScrapClassInfo{
             page.waitForNavigation(),
             page.click(".nav-search-btn")
         ])
-
-
+        
         const ps =  await page.evaluate(()=>{
             const DOMList = document.getElementsByClassName("ui-search-result") as HTMLCollectionOf<HTMLDivElement>
             var classContentList:ClassReturn[] = []
