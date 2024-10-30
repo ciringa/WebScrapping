@@ -1,12 +1,12 @@
 import puppeteer from "puppeteer";
 import {pup_config } from "../../lib/pupeteer";
 
-export class ScrapMercadoLivreUseCase{
+export class ScrapMercadoLivreSearchLinksUseCase{
     constructor(){}
     async execute(TermoDeBusca:string){
         //setup browser enviroment
         const browser = await puppeteer.launch({
-            headless: false, //true=will hide everything
+            headless: true, //true=will hide everything
         });
   
         //open a new page
