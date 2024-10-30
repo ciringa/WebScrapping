@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import {pup_config } from "../../lib/pupeteer";
+import {pup_config } from "../../lib/pup/pupeteer";
 
 export class ScrapMercadoLivreSearchLinksUseCase{
     constructor(){}

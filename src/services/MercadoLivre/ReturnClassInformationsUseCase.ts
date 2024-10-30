@@ -1,5 +1,6 @@
 import { title } from "process";
 import puppeteer, { Puppeteer } from "puppeteer";
+import { pup_config } from "../../lib/pup/pupeteer";
 
 interface ClassReturn{
     Link:string,
@@ -18,7 +19,7 @@ export class MercadoLivreScrapClassInfo{
         const browser = await puppeteer.launch({headless:false});
         const page = await browser.newPage()
 
-        await page.goto("https://www.mercadolivre.com.br/");
+        await page.goto(pup_config.MercadoLivre);
 
         await page.type("#cb1-edit",QueryParam);
 
@@ -32,7 +33,6 @@ export class MercadoLivreScrapClassInfo{
             const DOMList = document.getElementsByClassName("ui-search-result") as HTMLCollectionOf<HTMLDivElement>
             var classContentList:ClassReturn[] = []
             for(let i=0;i<DOMList.length;i++){
-                let IeId = DOMList[i].id;
                 const AnchorElement = DOMList[i].querySelector(`.ui-search-link__title-card`) as HTMLAnchorElement;
                 const SpanForTitle = DOMList[i].querySelector(`.ui-search-item__brand-discoverability`) as HTMLSpanElement 
                 const ImageForLink = DOMList[i].querySelector(".ui-search-result-image__element") as HTMLImageElement
