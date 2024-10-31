@@ -1,0 +1,16 @@
+services:
+  db:
+    image: bitnami/postgresql:latest
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: WBScrapper
+      POSTGRES_PASSWORD: WBScrapper123
+      POSTGRES_DB: WBScrapper_Database
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local

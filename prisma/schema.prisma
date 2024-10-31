@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+enum wSite {
+  MercadoLivre
+}
+
+model Product{
+  Id Int @id @default(autoincrement())
+  Name String
+  Slug String @unique
+  Link String @unique
+  Image String
+  Description String
+  Worksite wSite @default(MercadoLivre)
+  WorkSiteLink String @default("https://www.mercadolivre.com.br")
+
+  PriceHistory PriceReference[]
+}
+
+model PriceReference{
+  Id String @id @default(uuid())
+  PriceRef Float @default(0)
+  Created_at DateTime @default(now())
+
+  uRef Product @relation(fields: [Prod_id],references: [Id])
+  Prod_id Int
+}
