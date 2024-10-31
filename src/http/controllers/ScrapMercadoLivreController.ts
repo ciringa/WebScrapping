@@ -13,8 +13,15 @@ export async function ScrapMercadoLivreController(req:FastifyRequest, res:Fastif
     try{
         const call  = await MService.execute(Query)
         res.status(200).send({
-            ItemsList:call.DOMCLassList.slice((p-1)*20,p*20),
-            TotalPages:call.DOMCLassList.length
+            DOM:{
+                ItemsList:call.DOMCLassList.slice((p-1)*20,p*20),
+                TotalPages:call.DOMCLassList.length
+            },
+            DB:{
+                Products:call.ProductList,
+                PriceReference:call.PriceList
+            }
+
         })
     }catch(err){
         if(err){
