@@ -14,4 +14,7 @@ export class PrismaPriceRefRepository implements PriceReferenceRepository{
     async findByProduct(ProdId: number): Promise<PriceReference[]> {
         return await prisma.priceReference.findMany({where:{Prod_id:ProdId}})
     }
+    async findMany(): Promise<PriceReference[]> {
+        return await prisma.priceReference.findMany()
+    }
 }

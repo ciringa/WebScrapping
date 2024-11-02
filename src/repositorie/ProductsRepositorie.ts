@@ -5,4 +5,5 @@ export interface ProductRepository {
     findBySlug(slug:string):Promise<Product | null>
     findById(Id:number):Promise<Product | null>
     findByLink(Link:string):Promise<Product | null>
+    findMany():Promise<Product[]>
 }

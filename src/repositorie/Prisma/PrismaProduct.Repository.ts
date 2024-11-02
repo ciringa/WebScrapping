@@ -29,4 +29,7 @@ export class PrismaProductRepository implements ProductRepository{
             }
         })
     }
+    async findMany(): Promise<Product[]> {
+        return await prisma.product.findMany()   
+    }
 }

@@ -22,4 +22,7 @@ export class MemoryPriceReferenceRepository implements PriceReferenceRepository{
         const x = this.item.filter(item => item.Prod_id == ProdId);
         return x; 
     }
+    async findMany(): Promise<PriceReference[]> {
+        return this.item
+    }
 }

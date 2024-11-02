@@ -8,7 +8,7 @@ export class MemoryProductRepository implements ProductRepository{
     private items:Product[] = []
     async create(data: Prisma.ProductUncheckedCreateInput): Promise<Product> {
         const _data:Product = {
-            Id:randomInt(99999999999999999999999),
+            Id:this.items.length+1,
             Description:String(data.Description),
             Image:String(data.Image),
             Link:String(data.Link),
@@ -31,5 +31,8 @@ export class MemoryProductRepository implements ProductRepository{
     async findByLink(Link: string): Promise<Product | null> {
         const x = this.items.find(item => item.Link == Link);
         return x?x:null;
+    }
+    async findMany(): Promise<Product[]> {
+        return this.items;
     }
 }
