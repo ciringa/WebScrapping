@@ -14,27 +14,12 @@ describe("good use case",()=>{
         prodRepository = new MemoryProductRepository()
     })
     
-    // it("Should be able to create a product list with information from the DOM",async()=>{
-    //     SUT =  new MercadoLivreScrapClassInfo(prodRepository,priceRefRepository,true)
-    //     const res = await SUT.execute("Thinkpad");
-    //     if(res){
-    //         expect(res.ProductList.length).toBeGreaterThan(0)
-    //     }else{
-    //         console.error("Got null")
-    //     }
-    // },{
-    //     timeout:20000
-    // })
-
-    it("Should be able to create a priceReference list with the information from the DOM", async()=>{
-        SUT =  new MercadoLivreScrapClassInfo(prodRepository,priceRefRepository,false)
-        console.warn("to ger products")
-        await SUT.execute("Thinkpad")
-        console.warn("to get PriceReference")
-        const secRes = await SUT.execute("Thinkpad");
-
-        expect(secRes.PriceList.length).toBeGreaterThan(0)
+    it("Should be able to create a product list with information from the DOM",async()=>{
+        SUT =  new MercadoLivreScrapClassInfo(prodRepository,false)
+        const res = await SUT.execute("Thinkpad");
+        expect(res.ProductList.length).toBeGreaterThan(0)
     },{
         timeout:20000
     })
+
 })

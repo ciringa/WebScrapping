@@ -9,8 +9,10 @@ export async function ScrapMercadoLivreController(req:FastifyRequest, res:Fastif
         Query:z.string(),
         Page:z.string() //Paginated content
     }).parse(req.params)
+    
     const p = Number(Page)
-    const MService = new MercadoLivreScrapClassInfo(new PrismaProductRepository,new PrismaPriceRefRepository,true);
+
+    const MService = new MercadoLivreScrapClassInfo(new PrismaProductRepository,true);
 
     try{
         const call  = await MService.execute(Query)
@@ -21,7 +23,6 @@ export async function ScrapMercadoLivreController(req:FastifyRequest, res:Fastif
             },
             DB:{
                 Products:call.ProductList,
-                PriceReference:call.PriceList
             }
 
         })

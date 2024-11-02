@@ -3,7 +3,7 @@ import { ScrapMercadoLivreController } from "./controllers/ScrapMercadoLivreCont
 
 export async function Router(app:FastifyInstance) {
     app.route({
-        handler:ScrapMercadoLivreController,url:"/ml/scrap/:Query/:Page",method:"GET"
+        handler:ScrapMercadoLivreController,url:"/ml/scrap/:Query/:Page",method:"POST"
     })
     
 }
