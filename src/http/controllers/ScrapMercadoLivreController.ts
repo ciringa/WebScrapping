@@ -1,6 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { MercadoLivreScrapClassInfo } from "../../services/MercadoLivre/ReturnClassInformationsUseCase";
+import { PrismaProductRepository } from "../../repositorie/Prisma/PrismaProduct.Repository";
+import { PrismaPriceRefRepository } from "../../repositorie/Prisma/PrismaPriceReference.Repository";
 
 export async function ScrapMercadoLivreController(req:FastifyRequest, res:FastifyReply) {
     const {Page,Query} = z.object({
@@ -8,7 +10,7 @@ export async function ScrapMercadoLivreController(req:FastifyRequest, res:Fastif
         Page:z.string() //Paginated content
     }).parse(req.params)
     const p = Number(Page)
-    const MService = new MercadoLivreScrapClassInfo(true);
+    const MService = new MercadoLivreScrapClassInfo(new PrismaProductRepository,new PrismaPriceRefRepository,true);
 
     try{
         const call  = await MService.execute(Query)

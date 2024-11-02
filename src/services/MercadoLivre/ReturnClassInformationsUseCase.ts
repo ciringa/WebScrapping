@@ -5,6 +5,8 @@ import { PriceReference, Prisma, Product } from "@prisma/client";
 import { prisma } from "../../lib/db/prisma";
 import { sluggen } from "../../utils/sluggen";
 import { randomUUID } from "crypto";
+import { ProductRepository } from "../../repositorie/ProductsRepositorie";
+import { PriceReferenceRepository } from "../../repositorie/PriceRefRepositorie";
 
 interface ClassReturn{
     Link:string,
@@ -21,7 +23,7 @@ interface MercadoLivreScrapClassInfoReturn{
 }
 
 export class MercadoLivreScrapClassInfo{
-    constructor(private Headless:boolean){}
+    constructor(private productRepository:ProductRepository,private prodRefrepository:PriceReferenceRepository,private Headless:boolean){}
     async execute(QueryParam:string):Promise<MercadoLivreScrapClassInfoReturn>{
         const browser = await puppeteer.launch({headless:this.Headless});
         const page = await browser.newPage()
@@ -56,28 +58,27 @@ export class MercadoLivreScrapClassInfo{
             }
             return classContentList
         })
+
         ps.forEach(async Element=>{
-            const findIfThereIsAnyThingWithThisSlug = await prisma.product.findUnique({
-                where:{
-                    Link:Element.Link
-                }
-            })
-            console.log(findIfThereIsAnyThingWithThisSlug)
-            if(findIfThereIsAnyThingWithThisSlug){
-                await prisma.priceReference.create({
-                    data:{
-                        Prod_id:findIfThereIsAnyThingWithThisSlug.Id,
-                        PriceRef:Element.Price,
-                    }
-                })
+            //Para cada item da lista de produtos gera um slug(código único que pode ser utilizado para localizar esse elemento)
+            const slug = sluggen(Element.Title+Element.Price+Element.Description)
+            
+            //checa se ja existe algum elemento com o Link (futuramente o slug) especificado 
+            const findIfThereIsAnyThingWithThisLink = await this.productRepository.findByLink(Element.Link)
+            console.log(findIfThereIsAnyThingWithThisLink)
+            
+            if(findIfThereIsAnyThingWithThisLink){
+                // Se ja existir algum produto com o link especificado ele irá criar uma referencia de preço para esse produto
+                await this.prodRefrepository.create({Prod_id:findIfThereIsAnyThingWithThisLink.Id, PriceRef:Element.Price,})
             }else{
+                // Se nao existir nenhum produto com o link especificado ele irá criar uma novo produto a partir das informações coletadas 
                 await prisma.product.create({
                     data:{
                         Description:Element.Description,
                         Image:Element.Image,
                         Link:Element.Link,
                         Name:Element.Title,
-                        Slug:sluggen(Element.Title+Element.Price+Element.Description+randomUUID())
+                        Slug:slug
                     }
                 })
             }
