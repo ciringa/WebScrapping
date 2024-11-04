@@ -23,7 +23,14 @@ interface MercadoLivreScrapClassInfoReturn{
 }
 
 export class MercadoLivreScrapClassInfo{
-    constructor(private productRepository:ProductRepository,private Headless:boolean){}
+    constructor(private productRepository:ProductRepository,private Headless:boolean,private referenceRepository:PriceReferenceRepository){}
+    /**
+     * Executes a web scraping operation on the Mercado Livre site to retrieve product information based on a search query.
+     * 
+     * @param QueryParam - The search query string used to find products on the Mercado Livre platform.
+     * @returns A promise that resolves to an object containing the scraped product information and a list of products from the repository.
+     * @throws Error if the scraped data is empty or if there is an issue acquiring information from the DOM.
+     */
     async execute(QueryParam:string):Promise<MercadoLivreScrapClassInfoReturn>{
         const browser = await puppeteer.launch({headless:this.Headless});
         const page = await browser.newPage()
@@ -85,14 +92,17 @@ export class MercadoLivreScrapClassInfo{
                        Name:String(Element.Title),
                        Slug:slug
                    })
+                }else{
+                    //creates a price reference
+                    await this.referenceRepository.create({
+                        Prod_id:findIfThereIsAnyThingWithThisSlug.Id,
+                        PriceRef:Element.Price
+                    })
                 }
            }))
-   
- 
         }else{
             throw new Error("Ps is empty. Cant Arquire information from DOM")
         }
-
         const [ProductList] = await Promise.all([
             this.productRepository.findMany()
         ])

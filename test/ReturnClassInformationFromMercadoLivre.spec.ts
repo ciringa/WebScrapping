@@ -12,14 +12,15 @@ describe("good use case",()=>{
     beforeEach(()=>{
         priceRefRepository = new MemoryPriceReferenceRepository()
         prodRepository = new MemoryProductRepository()
+    
     })
     
     it("Should be able to create a product list with information from the DOM",async()=>{
-        SUT =  new MercadoLivreScrapClassInfo(prodRepository,false)
+        SUT =  new MercadoLivreScrapClassInfo(prodRepository,false,priceRefRepository)
         const res = await SUT.execute("Thinkpad");
         expect(res.ProductList.length).toBeGreaterThan(0)
     },{
-        timeout:20000
+        timeout:80000
     })
 
 })

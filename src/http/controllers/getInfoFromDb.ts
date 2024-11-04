@@ -20,6 +20,6 @@ export async function GetInfoFromDbController(req:FastifyRequest,res:FastifyRepl
             take:p*20
         })
     }catch(err){
-
+        res.status(500).send(err)
     }
 }
