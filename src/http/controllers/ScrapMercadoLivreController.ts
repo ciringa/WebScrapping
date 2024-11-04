@@ -5,20 +5,17 @@ import { PrismaProductRepository } from "../../repositorie/Prisma/PrismaProduct.
 import { PrismaPriceRefRepository } from "../../repositorie/Prisma/PrismaPriceReference.Repository";
 
 export async function ScrapMercadoLivreController(req:FastifyRequest, res:FastifyReply) {
-    const {Page,Query} = z.object({
+    const {Query} = z.object({
         Query:z.string(),
-        Page:z.string() //Paginated content
     }).parse(req.params)
     
-    const p = Number(Page)
-
     const MService = new MercadoLivreScrapClassInfo(new PrismaProductRepository,true);
 
     try{
         const call  = await MService.execute(Query)
         res.status(200).send({
             DOM:{
-                ItemsList:call.DOMCLassList.slice((p-1)*20,p*20),
+                ItemsList:call.DOMCLassList,
                 TotalPages:call.DOMCLassList.length
             },
             DB:{
