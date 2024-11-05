@@ -1,1 +1,4 @@
 POST http://127.0.0.1:2333/ml/scrap/Thinkpad/2 HTTP/1.1
+
+### get
+GET http://127.0.0.1:2333 HTTP/1.1

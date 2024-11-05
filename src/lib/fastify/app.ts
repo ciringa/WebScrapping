@@ -9,5 +9,16 @@ app.register(fastifyWebsocket,{
         maxPayload:1048576
     }
 })
+
+
+app.register(async function (fastify) {
+    fastify.get('/*', { websocket: true }, (socket /* WebSocket */, req /* FastifyRequest */) => {
+      socket.on('message', message => {
+        // message.toString() === 'hi from client'
+        socket.send('hi from wildcard route')
+      })
+    })
+})
+
 app.register(Router)
 
