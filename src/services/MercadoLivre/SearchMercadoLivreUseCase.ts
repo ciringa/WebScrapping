@@ -1,19 +1,19 @@
 import puppeteer from "puppeteer";
-import {pup_config } from "../../lib/pupeteer";
+import {pup_config } from "../../lib/pup/pupeteer";
 
-export class ScrapMercadoLivreUseCase{
-    constructor(){}
+export class ScrapMercadoLivreSearchLinksUseCase{
+    constructor(private Headless:boolean=true){}
     async execute(TermoDeBusca:string){
         //setup browser enviroment
         const browser = await puppeteer.launch({
-            headless: false, //true=will hide everything
+            headless: this.Headless, //true=will hide everything
         });
   
         //open a new page
         const P = await browser.newPage();
   
         //redirectionando para o site
-        await P.goto(pup_config.link);
+        await P.goto(pup_config.MercadoLivre);
   
         //preenchendo o input
         await P.type("#cb1-edit",TermoDeBusca);

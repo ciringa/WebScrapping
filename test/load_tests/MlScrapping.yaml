@@ -1,0 +1,15 @@
+config:
+  target: "http://127.0.0.1:2333"
+  phases:
+    - duration: 100 # duração total do teste em segundos (10 conexões ao longo de 100 segundos)
+      arrivalRate: 1  # taxa de chegada de 0.1 por segundo (uma conexão a cada 10 segundos)
+      rampTo: 1
+  variables:
+    query: "ThinkPad"
+    page: 1
+
+scenarios:
+  - name: "Scrap mercado livre and return info"
+    flow:
+      - get:
+          url: "/ml/scrap/{{ query }}/{{ page }}"

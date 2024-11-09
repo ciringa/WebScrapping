@@ -1,0 +1,1 @@
+- desacoplar tabela de produtos. 

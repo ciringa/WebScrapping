@@ -1,7 +1,7 @@
 import puppeteer, { Page } from "puppeteer";
 
 export const pup_config = {
-  link: "https://www.mercadolivre.com.br",
+  MercadoLivre: "https://www.mercadolivre.com.br",
   SearchQuery: "macbook",
 };
 
